@@ -18,10 +18,6 @@ router.get('/:id', validateID, async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  console.log('body',req.body);
-  console.log('name',req.body.name);
-  console.log('description',req.body.description);
-  
   if (!req.body.name || !req.body.description) {
    res.status(400).json( {message: 'missing name or description fields'})
   } else {
@@ -39,9 +35,7 @@ router.put('/:id', validateID, async (req, res, next) => {
     const { id } = req.params;
     const changes = req.body;   
     if (Object.keys(changes).length > 0){
-      const editProject = await ProjectsDB.update(id,changes)      
-      console.log('projectPUT',editProject);
-      
+      const editProject = await ProjectsDB.update(id,changes) 
       res.status(200).json(editProject)
     } else {
       res.status(400).json({ message: 'missing data'})

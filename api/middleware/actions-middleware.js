@@ -21,7 +21,6 @@ const validateID = async (req, res, next) => {
 
 
 const validateAction = async (req, res, next) => {
-  console.log('validateAction', req.body);
   try {
     const projects = await ProjectsDB.get()    
     if(projects.filter(e => e.id === req.body.project_id).length > 0) {      
