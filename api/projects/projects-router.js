@@ -29,9 +29,9 @@ router.post('/', (req, res, next) => {
 router.put('/:id', validateID, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const changes = req.body;
-    if (changes.length > 0){
-      const editProject = await ProjectsDB.update(id,changes)
+    const changes = req.body;   
+    if (Object.keys(changes).length > 0){
+      const editProject = await ProjectsDB.update(id,changes)      
       res.status(200).json(editProject)
     } else {
       res.status(400).json({ message: 'missing data'})

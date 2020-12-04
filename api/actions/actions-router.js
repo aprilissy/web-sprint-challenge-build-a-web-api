@@ -33,7 +33,7 @@ router.put('/:id', validateID, async (req, res, next) => {
   try {
     const { id } = req.params;
     const changes = req.body;
-    if (changes.length > 0){
+    if (Object.keys(changes).length > 0){
       const editAction = await ActionsDB.update(id,changes)
       res.status(200).json(editAction)
     } else {
