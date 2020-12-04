@@ -7,14 +7,16 @@ const router = express.Router();
 
 router.get('/', async (_, res, next) => {  
   try {    
-    const users = await ActionsDB.get()
-    res.status(200).json(users)
+    const actions = await ActionsDB.get()
+    res.status(200).json(actions)
   } catch (error) {
       next(error)
   }
 });
 
 router.get('/:id', validateID, async(req, res) => {
+  console.log('req.action',req.action);
+  
   res.status(200).json(req.action)
 })
 
@@ -46,13 +48,11 @@ router.delete('/:id', validateID, async (req, res, next) => {
   try {
     const { id } = req.params; 
     const delAction = await ActionsDB.remove(id);
-    res.status(200).json({ message: `The user with id ${id} has been deleted`, delete:delAction})
+    res.status(200).json({ message: `The action with id ${id} has been deleted`, delete:delAction})
   } catch (error) {
     next(error)
   }
 })
-
-
 
 router.use((err, _, res) => {
   res.status(500).json({
