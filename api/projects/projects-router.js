@@ -17,12 +17,20 @@ router.get('/:id', validateID, async (req, res, next) => {
   res.status(200).json(req.project)
 })
 
-router.post('/', (req, res, next) => {
-  try {
-    const newProject = ProjectsDB.insert(req.body)    
-    res.status(201).json(newProject)
-  } catch (error) {    
-    next(error)
+router.post('/', async (req, res, next) => {
+  console.log('body',req.body);
+  console.log('name',req.body.name);
+  console.log('description',req.body.description);
+  
+  if (!req.body.name || !req.body.description) {
+   res.status(400).json( {message: 'missing name or description fields'})
+  } else {
+    try {
+      const newProject = await ProjectsDB.insert(req.body)
+      res.status(201).json(newProject)
+    } catch (error) {    
+      next(error)
+    }
   }
 })
 
