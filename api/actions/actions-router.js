@@ -1,26 +1,27 @@
 // Write your "actions" router here!
 const express = require('express');
 const ActionsDB = require('./actions-model');
+const { validateID } = require('../middleware/actions-middleware');
 const router = express.Router();
 
 
-router.get('/', async (_, res, next) => {
-  console.log('res',res);
-  
+router.get('/', async (_, res, next) => {  
   try {    
     const users = await ActionsDB.get()
-    console.log('users: ', users);
-    
     res.status(200).json(users)
   } catch (error) {
       next(error)
   }
 });
 
+router.get('/:id', validateID, async(req, res) => {
+  res.status(200).json(req.action)
+})
 
-// router.get('/:id', (req, res, next) => {
 
-// })
+
+
+
 // router.post('/', (req, res, next) => {
 
 // })
