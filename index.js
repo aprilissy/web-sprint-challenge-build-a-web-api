@@ -13,3 +13,13 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+const dotenv = require('dotenv');
+dotenv.config();
+
+const port = process.env.PORT || 5000;
+
+const server = require('./api/server');
+
+server.listen(port, () => {
+  console.log(`Server Running on port ${port}`);  
+})
