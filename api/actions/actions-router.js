@@ -42,9 +42,15 @@ router.put('/:id', validateID, async (req, res, next) => {
   }
 })
 
-// router.delete('/:id', (req, res, next) => {
-
-// })
+router.delete('/:id', validateID, async (req, res, next) => {
+  try {
+    const { id } = req.params; 
+    const delAction = await ActionsDB.remove(id);
+    res.status(200).json({ message: `The user with id ${id} has been deleted`, delete:delAction})
+  } catch (error) {
+    next(error)
+  }
+})
 
 
 
