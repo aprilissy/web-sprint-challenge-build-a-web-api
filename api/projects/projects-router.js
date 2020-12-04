@@ -32,6 +32,8 @@ router.put('/:id', validateID, async (req, res, next) => {
     const changes = req.body;   
     if (Object.keys(changes).length > 0){
       const editProject = await ProjectsDB.update(id,changes)      
+      console.log('projectPUT',editProject);
+      
       res.status(200).json(editProject)
     } else {
       res.status(400).json({ message: 'missing data'})
@@ -51,8 +53,14 @@ router.delete('/:id', validateID, async (req, res, next) => {
   }
 })
 
-router.get('/:id/actions', validateID, (req, res, next) => {
-
+router.get('/:id/actions', validateID, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const actions = await ProjectsDB.getProjectActions(id);
+    res.status(200).json(actions);
+  } catch (error) {
+    next(error);
+  }
 })
 
 router.use((err, _, res) => {
