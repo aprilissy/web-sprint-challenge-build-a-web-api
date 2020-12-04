@@ -1,5 +1,4 @@
 const ProjectsDB = require('../projects/projects-model');
-const ActionsDB = require('../actions/actions-model');
 
 const validateID = async (req, res, next) => {
   const { id } = req.params;
@@ -18,7 +17,6 @@ const validateID = async (req, res, next) => {
     });
   }
 };
-
 
 module.exports = {
   validateID  

@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', validateID, async (req, res, next) => {
+router.get('/:id', validateID, async (req, res) => {
   res.status(200).json(req.project)
 })
 
