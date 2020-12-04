@@ -1,4 +1,5 @@
 const ActionsDB = require('../actions/actions-model');
+const ProjectsDB = require('../projects/projects-model');
 
 const validateID = async (req, res, next) => {
   const { id } = req.params;
@@ -18,27 +19,23 @@ const validateID = async (req, res, next) => {
   }
 };
 
-// function validateAction(req, res, next) {
-//   console.log('validateAction', req.body);
-  
-//   if(!req.body) {
-//     res.status(400).json({ message: 'missing action data'})
-//   } else if (!req.body.description || ! req.body.notes) {
-//     res.status(400).json({ message: 'missing required description or notes field'})
-//   } else {
-//     next()
-//   }
-// }
 
-function validateAction(req, res, next) {
+const validateAction = async (req, res, next) => {
   console.log('validateAction', req.body);
-  
-  if(!req.body) {
-    res.status(400).json({ message: 'missing action data'})
-  } else if (!req.body.description || ! req.body.notes) {
-    res.status(400).json({ message: 'missing required description or notes field'})
-  } else {
-    next()
+  try {
+    const projects = await ProjectsDB.get()
+    console.log('projects',projects);
+    
+    if(projects.filter(e => e.id === req.body.project_id).length > 0) {
+      next()
+    } else {
+      res.status(400).json({message: `project with id ${req.body.project_id} does not exist`})
+    }
+  } catch (error) {
+    res.status(400).json({ 
+      message: 'Error validating project ID',
+      error: error
+    });
   }
 }
 
