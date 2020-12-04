@@ -23,11 +23,13 @@ const validateID = async (req, res, next) => {
 const validateAction = async (req, res, next) => {
   console.log('validateAction', req.body);
   try {
-    const projects = await ProjectsDB.get()
-    console.log('projects',projects);
-    
-    if(projects.filter(e => e.id === req.body.project_id).length > 0) {
-      next()
+    const projects = await ProjectsDB.get()    
+    if(projects.filter(e => e.id === req.body.project_id).length > 0) {      
+      if(!req.body.description || !req.body.notes) {
+        res.status(400).json({ message: 'missing required description or notes field'})
+      } else {
+        next()
+      }
     } else {
       res.status(400).json({message: `project with id ${req.body.project_id} does not exist`})
     }

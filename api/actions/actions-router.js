@@ -19,16 +19,10 @@ router.get('/:id', validateID, async(req, res) => {
 })
 
 router.post('/', validateAction, async (req, res, next) => {
-  console.log('post',req.body);
-  
   try {
-    const newAction = await ActionsDB.insert(req.body)
-    console.log('newAction', newAction);
-    
+    const newAction = await ActionsDB.insert(req.body)    
     res.status(201).json(newAction)
-  } catch (error) {
-    console.log('err');
-    
+  } catch (error) {    
     next(error)
   }
 });
