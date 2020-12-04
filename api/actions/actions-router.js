@@ -27,8 +27,16 @@ router.post('/', validateAction, async (req, res, next) => {
   }
 });
 
-router.put('/:id', (req, res, next) => {
-
+router.put('/:id', validateID, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const changes = req.body;
+    console.log('body changes,',changes);
+    const editAction = await ActionsDB.update(id,changes)
+    res.status(200).json(editAction)
+  } catch (error) {
+    next(error);
+  }
 })
 
 // router.delete('/:id', (req, res, next) => {
